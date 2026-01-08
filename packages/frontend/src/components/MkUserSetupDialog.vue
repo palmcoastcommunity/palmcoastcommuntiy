@@ -174,13 +174,7 @@ function setupComplete() {
 
 function launchTutorial() {
 	setupComplete();
-	nextTick(async () => {
-		const { dispose } = await os.popupAsyncWithDialog(import('@/components/MkTutorialDialog.vue').then(x => x.default), {
-			initialPage: 1,
-		}, {
-			closed: () => dispose(),
-		});
-	});
+	window.open('https://kruger24.com', '_blank');
 }
 
 async function later(later: boolean) {
