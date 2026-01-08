@@ -15,21 +15,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 			{{ message }}
 		</MkInfo>
 
-		<!-- 外部サーバーへの転送 -->
-		<div v-if="openOnRemote" class="_gaps_m">
-			<div class="_gaps_s">
-				<MkButton type="button" rounded primary style="margin: 0 auto;" @click="openRemote(openOnRemote)">
-					{{ i18n.ts.continueOnRemote }} <i class="ti ti-external-link"></i>
-				</MkButton>
-				<button type="button" class="_button" :class="$style.instanceManualSelectButton" @click="specifyHostAndOpenRemote(openOnRemote)">
-					{{ i18n.ts.specifyServerHost }}
-				</button>
-			</div>
-			<div :class="$style.orHr">
-				<p :class="$style.orMsg">{{ i18n.ts.or }}</p>
-			</div>
-		</div>
-
 		<!-- username入力 -->
 		<form class="_gaps_s" @submit.prevent="emit('usernameSubmitted', username)">
 			<MkInput v-model="username" :placeholder="i18n.ts.username" type="text" pattern="^[a-zA-Z0-9_]+$" :spellcheck="false" autocomplete="username webauthn" autofocus required data-cy-signin-username>
