@@ -5,36 +5,22 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <template>
 <div v-if="meta" :class="$style.root">
-	<MkFeaturedPhotos :class="$style.bg"/>
 	<XTimeline :class="$style.tl"/>
-	<div :class="$style.shape1"></div>
-	<div :class="$style.shape2"></div>
-	<div :class="$style.logoWrapper">
-		<div :class="$style.poweredBy">Powered by</div>
-		<img :src="misskeysvg" :class="$style.misskey"/>
-	</div>
 	<div :class="$style.contents">
 		<MkVisitorDashboard/>
 	</div>
-	<div v-if="instances && instances.length > 0" :class="$style.federation">
-		<MkMarqueeText :duration="40">
-			<MkA v-for="instance in instances" :key="instance.id" :class="$style.federationInstance" :to="`/instance-info/${instance.host}`" behavior="window">
-				<!--<MkInstanceCardMini :instance="instance"/>-->
-				<img v-if="instance.iconUrl" :class="$style.federationInstanceIcon" :src="getInstanceIcon(instance)" alt=""/>
-				<span class="_monospace">{{ instance.host }}</span>
-			</MkA>
-		</MkMarqueeText>
-	</div>
+	<footer :class="$style.footer">
+		&copy; {{ instanceName }} | <a :href="meta.repositoryUrl || 'https://github.com/misskey-dev/misskey'" target="_blank">Source Code</a>
+	</footer>
 </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
 import * as Misskey from 'misskey-js';
+import { instanceName } from '@@/js/config.js';
 import XTimeline from './welcome.timeline.vue';
 import MkMarqueeText from '@/components/MkMarqueeText.vue';
-import MkFeaturedPhotos from '@/components/MkFeaturedPhotos.vue';
-import misskeysvg from '/client-assets/misskey.svg';
 import { misskeyApiGet } from '@/utility/misskey-api.js';
 import MkVisitorDashboard from '@/components/MkVisitorDashboard.vue';
 import { getProxiedImageUrl } from '@/utility/media-proxy.js';
@@ -64,14 +50,19 @@ misskeyApiGet('federation/instances', {
 	height: 100cqh;
 	overflow: auto;
 	overscroll-behavior: contain;
+	background: #ffffff !important;
+	color: #000000 !important;
 }
 
-.bg {
+.footer {
 	position: fixed;
-	top: 0;
+	bottom: 16px;
+	left: 0;
 	right: 0;
-	width: 80vw; // 100%からshapeの幅を引いている
-	height: 100vh;
+	text-align: center;
+	font-size: 0.8em;
+	opacity: 0.7;
+	z-index: 10;
 }
 
 .tl {
@@ -89,48 +80,6 @@ misskeyApiGet('federation/instances', {
 
 	@media (max-width: 1200px) {
 		display: none;
-	}
-}
-
-.shape1 {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	background: var(--MI_THEME-accent);
-	clip-path: polygon(0% 0%, 45% 0%, 20% 100%, 0% 100%);
-}
-.shape2 {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	background: var(--MI_THEME-accent);
-	clip-path: polygon(0% 0%, 25% 0%, 35% 100%, 0% 100%);
-	opacity: 0.5;
-}
-
-.logoWrapper {
-	position: fixed;
-	top: 36px;
-	left: 36px;
-	flex: auto;
-	color: #fff;
-	user-select: none;
-	pointer-events: none;
-}
-
-.poweredBy {
-	margin-bottom: 2px;
-}
-
-.misskey {
-	width: 120px;
-
-	@media (max-width: 450px) {
-		width: 100px;
 	}
 }
 
