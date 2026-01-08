@@ -10,10 +10,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 	</div>
 	<div class="_spacer" style="--MI_SPACER-min: 20px; --MI_SPACER-max: 28px;">
 		<div class="_gaps_m">
-			<div v-if="instance.disableRegistration || instance.federation !== 'all'" class="_gaps_s">
+			<div v-if="instance.disableRegistration" class="_gaps_s">
 				<MkInfo v-if="instance.disableRegistration" warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
-				<MkInfo v-if="instance.federation === 'specified'" warn>{{ i18n.ts.federationSpecified }}</MkInfo>
-				<MkInfo v-else-if="instance.federation === 'none'" warn>{{ i18n.ts.federationDisabled }}</MkInfo>
 			</div>
 
 			<div style="text-align: center;">
@@ -47,7 +45,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #label>{{ i18n.ts.basicNotesBeforeCreateAccount }}</template>
 				<template #suffix><i v-if="agreeNote" class="ti ti-check" style="color: var(--MI_THEME-success)"></i></template>
 
-				<a href="https://misskey-hub.net/docs/for-users/onboarding/warning/" class="_link" target="_blank">{{ i18n.ts.basicNotesBeforeCreateAccount }} <i class="ti ti-external-link"></i></a>
+				<div v-html="i18n.ts.basicNotesBeforeCreateAccountDescription"></div>
 
 				<MkSwitch :modelValue="agreeNote" style="margin-top: 16px;" data-cy-signup-rules-notes-agree @update:modelValue="updateAgreeNote">{{ i18n.ts.agree }}</MkSwitch>
 			</MkFolder>
