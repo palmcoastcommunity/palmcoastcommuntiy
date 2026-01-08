@@ -5,20 +5,17 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <template>
 <div v-if="meta" :class="$style.root">
-	<MkFeaturedPhotos :class="$style.bg"/>
-	<div :class="$style.logoWrapper">
-		<div :class="$style.poweredBy">Powered by</div>
-		<img :src="misskeysvg" :class="$style.misskey"/>
-	</div>
 	<div :class="$style.contents">
 		<MkVisitorDashboard/>
 	</div>
+	<footer :class="$style.footer">
+		&copy; {{ instanceName }} | <a :href="meta.repositoryUrl || 'https://github.com/misskey-dev/misskey'" target="_blank">Source Code</a>
+	</footer>
 </div>
 </template>
 
 <script lang="ts" setup>
-import MkFeaturedPhotos from '@/components/MkFeaturedPhotos.vue';
-import misskeysvg from '/client-assets/misskey.svg';
+import { instanceName } from '@@/js/config.js';
 import MkVisitorDashboard from '@/components/MkVisitorDashboard.vue';
 import { instance as meta } from '@/instance.js';
 </script>
@@ -28,36 +25,19 @@ import { instance as meta } from '@/instance.js';
 	height: 100cqh;
 	overflow: auto;
 	overscroll-behavior: contain;
+	background: #ffffff !important;
+	color: #000000 !important;
 }
 
-.bg {
+.footer {
 	position: fixed;
-	top: 0;
+	bottom: 16px;
+	left: 0;
 	right: 0;
-	width: 100vw;
-	height: 100vh;
-}
-
-.logoWrapper {
-	position: fixed;
-	top: 36px;
-	left: 36px;
-	flex: auto;
-	color: #fff;
-	user-select: none;
-	pointer-events: none;
-}
-
-.poweredBy {
-	margin-bottom: 2px;
-}
-
-.misskey {
-	width: 120px;
-
-	@media (max-width: 450px) {
-		width: 100px;
-	}
+	text-align: center;
+	font-size: 0.8em;
+	opacity: 0.7;
+	z-index: 10;
 }
 
 .contents {
@@ -67,3 +47,4 @@ import { instance as meta } from '@/instance.js';
 	padding: 100px 0 100px 0;
 }
 </style>
+
